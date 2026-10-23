@@ -74,6 +74,16 @@ h1{font-size:clamp(64px,7.8vw,126px);max-width:900px}
 .quick{grid-template-columns:repeat(4,1fr);gap:18px}
 @media(max-width:900px){.hero{min-height:640px;padding:42px 28px}.quick{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){main{padding:10px 12px 50px}.hero{min-height:620px;border-radius:22px}h1{font-size:52px}.quick{grid-template-columns:1fr}}
+</style>
+<style>
+/* EDGE-TO-EDGE CITY HERO */
+main{width:100%;max-width:none;padding:0 0 40px}
+.topline{padding:16px 3% 14px;margin:0}
+.futurehero{width:100%;height:calc(100vh - 128px);min-height:680px;border-radius:0;border-left:0;border-right:0}
+.futurehero .herocopy{left:6%;top:18%}
+.futurehero .heroaside{right:6%;bottom:12%}
+.futurehero + *{margin-left:3%;margin-right:3%}
+@media(max-width:700px){.futurehero{height:calc(100vh - 105px);min-height:620px}.futurehero .herocopy{left:7%;top:13%}.futurehero .heroaside{right:5%;left:5%;bottom:5%}}
 </style></head>
 <body><header><a class="brand" onclick="go('home')"><span class="logo">m↗</span>MeruVerse<span style="color:#a6bc78">.</span></a><nav id="nav"><button data-page="home" class="active" onclick="go('home')">Utama</button><button data-page="place" onclick="go('place')">Place</button><button data-page="map" onclick="go('map')">Map</button><button data-page="community" onclick="go('community')">Komuniti <span class="lock">⌑</span></button><button data-page="parking" onclick="go('parking')">Smart Pay Parking <span class="lock">⌑</span></button><button data-page="data" onclick="go('data')">Data <span class="lock">⌑</span></button><button data-page="help" onclick="go('help')">Pertanyaan</button></nav><div style="position:relative"><button class="btn" id="account" onclick="account()" aria-haspopup="true">Log masuk ↗</button><div id="profileMenu" hidden style="position:absolute;right:0;top:55px;z-index:10;background:white;border:1px solid #dce3d9;border-radius:12px;padding:10px;width:185px;box-shadow:0 10px 30px #0002"><button class="btn outline" style="width:100%;margin-bottom:8px" onclick="go('data');dataTab('private');document.getElementById('profileMenu').hidden=true">Profil saya</button><button class="btn" style="width:100%" onclick="logout()">Log keluar ↗</button></div></div></header><main><div class="topline"><span>PERAK, MALAYSIA &nbsp; / &nbsp; BANDAR MERU RAYA</span><span class="badge" id="status">◉ &nbsp; Mod pelawat</span></div><section class="page show" id="home">
 <div class="futurehero"><div class="herogrid"></div><div class="herocopy"><span class="tag"><i class="dot"></i> CONNECTED CITY · GREENER TOMORROW</span><h1>Smart Meru Raya<span>.</span></h1><p>Bandar yang lebih pintar.<br>Kehidupan yang lebih hijau.</p><div class="herotags"><span>⌁ Smart connectivity</span><span>♧ Green living</span><span>◎ Community first</span></div><button class="btn light" onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'});document.getElementById('homeSearch').focus()">Terokai bandar anda &nbsp; ↗</button></div><div class="citybadge"><span class="eyebrow">MERU RAYA / IPOH</span><strong>A city. A community.<br>A connected future.</strong><span>04°40′ N &nbsp; 101°04′ E</span></div><span class="credit">Foto sebenar Bandar Meru Raya · Mynewshub · Foto arkib</span></div>
