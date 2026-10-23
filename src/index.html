@@ -180,8 +180,8 @@ function initMeruMap(){
   }
   try{
     meruMap=L.map(el,{zoomControl:true,scrollWheelZoom:true,preferCanvas:true}).setView([4.665,101.079],13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors',maxZoom:19,crossOrigin:true}).addTo(meruMap);
-    meruMarkers=homePlaces.map((p,i)=>{
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{attribution:'© OpenStreetMap contributors',maxZoom:19,crossOrigin:true}).addTo(meruMap);
+    meruMarkers=homePlaces.filter(p=>p.name==='MYDIN Mall Meru Raya').map((p,i)=>{
       const pos=p.coords||[[4.672,101.075],[4.661,101.089],[4.657,101.064],[4.668,101.083],[4.659,101.078],[4.665,101.088]][i%6];
       const icon=L.divIcon({className:'meru-category-pin',html:'<span>'+(['🍜','🛒','🚌'][i%3])+'</span>',iconSize:[48,48],iconAnchor:[24,24]});
       const m=L.marker(pos,{title:p.name,icon,zIndexOffset:1000}).addTo(meruMap);
