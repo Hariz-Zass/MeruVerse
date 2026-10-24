@@ -97,6 +97,18 @@ main{padding-top:22px}.topline{letter-spacing:.08em}.badge{box-shadow:0 4px 16px
 })();
 </script>
 <script>
+/* ADMIN CATEGORY PICKER: never allow free-text category entry. */
+(function(){
+  const categories=['Makanan dan Minuman','Mall','Pengangkutan','Kesihatan','Education','Taman','Service','Runcit','Bank','Rekreasi dan Sukan','Komuniti','Pejabat','Hotel dan Penginapan','Tempat Ibadah','Pasar','Fasiliti Awam'];
+  function fix(){
+    const f=document.getElementById('adminPlaceForm');if(!f)return;
+    const old=f.querySelector('input[name="category"]');
+    if(old){const s=document.createElement('select');s.name='category';s.required=true;s.innerHTML='<option value="" disabled selected>Pilih kategori</option>'+categories.map(x=>'<option value="'+x+'">'+x+'</option>').join('');old.replaceWith(s)}
+  }
+  setInterval(fix,200);fix();
+})();
+</script>
+<script>
 /* FINAL LOGIN FIX: close the native dialog after a valid login/registration. */
 (function(){
   function install(){
