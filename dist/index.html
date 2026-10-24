@@ -97,6 +97,17 @@ main{padding-top:22px}.topline{letter-spacing:.08em}.badge{box-shadow:0 4px 16px
 })();
 </script>
 <script>
+/* CATEGORY CONTROLS SYMBOL: one dropdown only; icon is automatic. */
+(function(){
+  function fix(){
+    const f=document.getElementById('adminPlaceForm');if(!f)return;
+    const icon=f.querySelector('select[name="icon"]');if(icon)icon.remove();
+    const category=f.querySelector('select[name="category"]');if(category)category.title='Simbol akan dipilih automatik mengikut kategori';
+  }
+  setInterval(fix,200);fix();
+})();
+</script>
+<script>
 /* ADMIN CATEGORY PICKER: never allow free-text category entry. */
 (function(){
   const categories=['Makanan dan Minuman','Mall','Pengangkutan','Kesihatan','Education','Taman','Service','Runcit','Bank','Rekreasi dan Sukan','Komuniti','Pejabat','Hotel dan Penginapan','Tempat Ibadah','Pasar','Fasiliti Awam'];
