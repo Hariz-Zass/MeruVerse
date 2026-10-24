@@ -132,8 +132,8 @@ main{padding-top:22px}.topline{letter-spacing:.08em}.badge{box-shadow:0 4px 16px
     f.addEventListener('submit',async ev=>{
       ev.preventDefault();ev.stopImmediatePropagation();
       const fd=new FormData(f),x=Object.fromEntries(fd.entries()),file=f.querySelector('input[name="image"]')?.files?.[0];
-      const save=async image=>{x.image=image||'';x.coords=[Number(x.lat),Number(x.lng)];x.cat=x.category;x.source='Admin MeruVerse';const r=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(x)});if(!r.ok)throw new Error('save failed');await syncPlaces();f.reset();const s=document.getElementById('adminStatus');if(s)s.textContent='Data disimpan dalam storan pusat localhost.'};
-      try{if(file){const reader=new FileReader();reader.onload=()=>save(reader.result).catch(()=>toast('Gagal menyimpan data.'));reader.readAsDataURL(file)}else await save('')}catch(e){toast('Gagal menyimpan data. Jalankan server localhost dahulu.')}
+      const save=async image=>{x.image=image||'';x.coords=[Number(x.lat),Number(x.lng)];x.cat=x.category;x.source='Admin MeruVerse';x.id=x.id||Date.now().toString();try{const r=await fetch(api,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(x)});if(!r.ok)throw new Error('api unavailable');await syncPlaces();const s=document.getElementById('adminStatus');if(s)s.textContent='Data disimpan dalam storan pusat.'}catch(e){const old=JSON.parse(localStorage.getItem('meruverse_admin_places')||'[]');old.push(x);localStorage.setItem('meruverse_admin_places',JSON.stringify(old));if(typeof homePlaces!=='undefined')homePlaces.push(x);if(typeof renderSmartMap==='function')renderSmartMap('SEMUA LOKASI');const s=document.getElementById('adminStatus');if(s)s.textContent='API belum tersedia — data disimpan pada browser ini buat sementara.'}f.reset()};
+      try{if(file){const reader=new FileReader();reader.onload=()=>save(reader.result);reader.readAsDataURL(file)}else await save('')}catch(e){toast('Gagal memproses data.')}
     },true);
   };
   setInterval(install,300);setTimeout(syncPlaces,400);
