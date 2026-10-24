@@ -473,4 +473,26 @@ html,body{max-width:100%;overflow-x:hidden}.searchbar{width:100%}.maplayout{min-
   setTimeout(()=>{const a=JSON.parse(localStorage.getItem('meruverse_active_user')||'null');window.refreshMeruRole(a&&a.email);},250);
 })();
 </script>
+<script>
+/* LAST LOGIN GUARD: this runs after all legacy login handlers. */
+setTimeout(function(){
+  const d=document.getElementById('login'),f=d&&d.querySelector('form');
+  if(!d||!f||f.dataset.lastLoginGuard)return; f.dataset.lastLoginGuard='1';
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();ev.stopImmediatePropagation();
+    const e=document.getElementById('loginEmail'),p=document.getElementById('loginPassword'),n=document.getElementById('display');
+    if(!e||!p||!e.validity.valid||p.value.length<6){toast('Sila isi email dan password yang sah.');return}
+    const reg=document.getElementById('tabRegister')?.classList.contains('active'),em=e.value.trim().toLowerCase(),pw=p.value,name=(n?.value||'').trim();
+    let list=JSON.parse(localStorage.getItem('meruverse_accounts')||'[]'),acc;
+    if(reg){if(name.length<2){toast('Isi display name dahulu.');return}if(list.some(x=>x.email===em)){toast('Email ini sudah berdaftar. Tekan Log masuk.');return}acc={email:em,password:pw,name};list.push(acc);localStorage.setItem('meruverse_accounts',JSON.stringify(list))}
+    else{acc=list.find(x=>x.email===em&&x.password===pw);if(!acc){toast('Akaun belum ada atau password salah.');return}}
+    user=acc.name;localStorage.setItem('meruverse_active_user',JSON.stringify({name:acc.name,email:acc.email}));
+    const a=document.getElementById('account');if(a)a.textContent=acc.name+' ▾';
+    const s=document.getElementById('status');if(s)s.textContent='◉ Sesi aktif';
+    if(typeof refreshMeruRole==='function')refreshMeruRole(acc.email);
+    if(d.open)d.close();else d.removeAttribute('open');
+    toast(reg?'Akaun berjaya didaftarkan.':'Berjaya log masuk.');
+  },true);
+},1200);
+</script>
 
