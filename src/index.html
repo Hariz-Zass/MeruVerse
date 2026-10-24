@@ -97,6 +97,27 @@ main{padding-top:22px}.topline{letter-spacing:.08em}.badge{box-shadow:0 4px 16px
 })();
 </script>
 <script>
+/* FINAL LOGIN FIX: close the native dialog after a valid login/registration. */
+(function(){
+  function install(){
+    const dlg=document.getElementById('login'),form=dlg&&dlg.querySelector('form');
+    const email=document.getElementById('loginEmail'),pass=document.getElementById('loginPassword'),display=document.getElementById('display');
+    const loginTab=document.getElementById('tabLogin'),registerTab=document.getElementById('tabRegister');
+    if(!dlg||!form||!email||!pass||!display||!loginTab||!registerTab)return false;
+    let mode='login';
+    const setMode=m=>{mode=m;const reg=m==='register';loginTab.classList.toggle('active',!reg);registerTab.classList.toggle('active',reg);display.style.display=reg?'block':'none';display.disabled=!reg;const lab=form.querySelector('label[for="display"]');if(lab)lab.style.display=reg?'block':'none';const b=form.querySelector('button.btn');if(b)b.textContent=reg?'Daftar & masuk ↗':'Log masuk ↗'};
+    loginTab.onclick=()=>setMode('login');registerTab.onclick=()=>setMode('register');
+    form.onsubmit=e=>{e.preventDefault();const em=email.value.trim().toLowerCase(),pw=pass.value,n=display.value.trim();if(!email.validity.valid||pw.length<6)return toast('Sila isi email dan password yang sah.');let accounts=JSON.parse(localStorage.getItem('meruverse_accounts')||'[]'),acc;
+      if(mode==='register'){if(n.length<2)return toast('Isi display name dahulu.');if(accounts.some(a=>a.email===em))return toast('Email ini sudah berdaftar. Tekan Log masuk.');acc={email:em,password:pw,name:n};accounts.push(acc);localStorage.setItem('meruverse_accounts',JSON.stringify(accounts))}
+      else{acc=accounts.find(a=>a.email===em&&a.password===pw);if(!acc)return toast('Akaun belum ada atau password salah. Daftar dahulu.')}
+      user=acc.name;localStorage.setItem('meruverse_active_user',JSON.stringify({name:acc.name,email:acc.email}));const accountBtn=document.getElementById('account');if(accountBtn)accountBtn.textContent=acc.name+' ▾';const status=document.getElementById('status');if(status)status.textContent='◉ Sesi aktif';const profile=document.getElementById('profileName');if(profile)profile.textContent=acc.name;if(typeof refreshMeruRole==='function')refreshMeruRole(acc.email);if(dlg.open)dlg.close();if(typeof go==='function')go(pending||'home');toast(mode==='register'?'Akaun berjaya didaftarkan.':'Berjaya log masuk.');
+    };
+    setMode(mode);return true;
+  }
+  const t=setInterval(()=>{if(install())clearInterval(t)},250);
+})();
+</script>
+<script>
 /* SHARED LOCALHOST STORE: admin places are saved by the server, not one browser. */
 (function(){
   const api='/api/places';
