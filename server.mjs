@@ -22,7 +22,7 @@ const server=http.createServer(async(req,res)=>{
     if(req.url.startsWith('/api/places/')&&req.method==='DELETE'){
       const id=decodeURIComponent(req.url.split('/').pop());const places=await readPlaces();const next=places.filter(p=>p.id!==id);await writePlaces(next);return send(res,200,{ok:true,places:next});
     }
-    let file=req.url==='/'?'/index.html':req.url.split('?')[0];file=path.normalize(file).replace(/^\.\.(\/|\\)/,'');const full=path.join(publicDir,file);
+    const requestPath=req.url.split('?')[0]||'/';let file=requestPath==='/'?'/index.html':requestPath;file=path.normalize(file).replace(/^\.\.(\/|\\)/,'');const full=path.join(publicDir,file);
     if(!full.startsWith(publicDir))return send(res,403,{error:'Forbidden'});
     const content=await fs.readFile(full);const ext=path.extname(full);const types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.jpg':'image/jpeg','.png':'image/png'};res.writeHead(200,{...headers,'Cache-Control':'no-store, no-cache, must-revalidate','Pragma':'no-cache','Content-Type':types[ext]||'application/octet-stream'});res.end(content);
   }catch(e){console.error(e);send(res,500,{error:'Server error'})}
